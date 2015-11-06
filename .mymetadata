@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="ptt"
+  id="myeclipse.1445932784256"
+  context-root="/ptt"
+  j2ee-spec="5.0"
+  archive="ptt.war">
+  <attributes>
+    <attribute name="webrootdir" value="src/main/webapp" />
+  </attributes>
+</project-module>
+

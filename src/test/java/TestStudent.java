@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,20 +24,20 @@ public class TestStudent {
 		studentService = (StudentService)context.getBean("StudentService");
 		signUpService = (SignUpService)context.getBean("SignUpService");
 	}
-	@Test 
-	
-	public void insertStudentTest(){
-		Student student = new Student();
-		student.setUsername("zjc");
-		student.setPassword("111");
-		student.setNickName("靓仔");
-		System.out.println(studentService.insertStudent(student));;
-	}
+//	@Test 
+//	
+//	public void insertStudentTest(){
+//		Student student = new Student();
+//		student.setUsername("zjc");
+//		student.setPassword("111");
+//		student.setNickName("靓仔");
+//		System.out.println(studentService.insertStudent(student));;
+//	}
 	@Test
 	public void insertSignUpTest(){
 		long time = System.currentTimeMillis();
 		SignUp signUp = new SignUp();
-		signUp.setUserName("zjc");
+		signUp.setUserName("zjc12325");
 		signUp.setName("张佳晨");
 		signUp.setStuNo("JAVA-L1-T1-005");
 		signUp.setCreateAt(time);
@@ -44,7 +47,19 @@ public class TestStudent {
 	}
 //	@Test
 //	public void read(){
-//	Student s = studentService.selectByUsername("zjc");
-//	System.out.println(s.getUsername() );
+//	SignUp s = signUpService.selectByUsername("zjc");
+//	System.out.println(s.getUserName() );
+//	}
+//	@Test
+//	public void update(){
+//		Map map = new HashMap();
+//		
+//		map.put("lastStuNo", "asdf");
+//		map.put("name", "dfa");
+//		map.put("promise", "dfas");
+//		map.put("updateAt", System.currentTimeMillis());
+//		map.put("firstStuNo", "JAVA-L1-T1-005");
+//		
+//		signUpService.updateSignUp(map);
 //	}
 }

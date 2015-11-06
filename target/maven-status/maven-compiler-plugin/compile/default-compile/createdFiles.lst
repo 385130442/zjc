@@ -1,0 +1,11 @@
+com\zjc\controller\SignUpController.class
+com\zjc\service\IStudentService.class
+com\zjc\model\Student.class
+com\zjc\service\impl\StudentService.class
+com\zjc\dao\ISignUpDao.class
+com\zjc\model\SignUp.class
+com\zjc\dao\IStudentDao.class
+com\zjc\controller\LoginController.class
+com\zjc\service\ISignUpService.class
+com\zjc\common\MyMessage.class
+com\zjc\service\impl\SignUpService.class

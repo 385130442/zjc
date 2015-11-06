@@ -13,7 +13,7 @@ public class StudentService implements IStudentService{
 	@Autowired
 	IStudentDao studentDao;
 	public Student selectByUsername(String userName) {
-		return studentDao.selectByUsername(userName);
+		return studentDao.selectByUserName(userName);
 	}
 
 	public int selStudentNum() {

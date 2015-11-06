@@ -1,7 +1,9 @@
 package com.zjc.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +22,7 @@ import com.zjc.service.impl.SignUpService;
 public class SignUpController {
 	@Autowired
 	SignUpService signUpService;
+	//用户名和学号要唯一。
 	@RequestMapping(value="/add")
 	public ModelAndView add(HttpServletRequest req,HttpServletResponse resp,String userName,
 	String stuNo,String name,String promise){
@@ -28,8 +31,12 @@ public class SignUpController {
 		int code=-1;
 		String message = "失败";
 		MyMessage mes = new MyMessage(code, message);
-		
-		if(userName==null||userName.trim().isEmpty()||signUpService.selectByUsername(userName)!=null){
+		//判断用户名是否可用
+		if(userName==null||userName.trim().isEmpty()||signUpService.selectByUserName(userName)==null){
+			mav.addObject("mes", mes);
+			return mav;
+			//判断学号是否可用
+		}else if(signUpService.selectByUserName(userName).getStuNo().equals(stuNo)){
 			mav.addObject("mes", mes);
 			return mav;
 		}
@@ -57,7 +64,7 @@ public class SignUpController {
 		String message ="失败";
 		MyMessage mes = new MyMessage(code, message);
 		mav.addObject("mes",mes);
-		SignUp signUp = signUpService.selectByUsername(userName);
+		SignUp signUp = signUpService.selectByUserName(userName);
 		if(signUp!=null){
 			code=0;
 			message="成功";
@@ -68,4 +75,69 @@ public class SignUpController {
 		mav.addObject("mes", mes);
 		return mav;
 	}
+	@RequestMapping(value="/delete")
+	public ModelAndView delete(HttpServletRequest req,HttpServletResponse resp,String userName,String stuNo){
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("SignUp/delete");
+		MyMessage mes = new MyMessage();
+		int code=-1;
+		String message="错误";
+		SignUp signUp = signUpService.selectByUserName(userName);
+		if(signUp==null){
+			mes.setCode(code);
+			mes.setMessage(message);
+		}else if(!signUp.getStuNo().equals(stuNo)){
+			mes.setCode(code);
+			mes.setMessage(message);
+		}else{
+			signUpService.deleteSignUpByStuNo(stuNo);
+			code=0;
+			mes.setCode(code);
+			message="成功";
+			mes.setMessage(message);
+		}
+		mav.addObject("mes", mes);
+		return mav;
+	}
+//	update SIGNUP set stuNo=#{lastStuNo},name=#{name},promise=#{promise},updateAt=#{updateAt}
+//	where  stuNo=#{firstStuNo}
+	@RequestMapping(value="/update")
+	public ModelAndView update(HttpServletRequest req,HttpServletResponse resp,String userName,String firstStuNo,
+	String	lastStuNo,String name,String promise	){
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("SignUp/update");
+		int code=-1;
+		String message="错误";
+		MyMessage mes = new MyMessage(code,message);
+		mav.addObject("mes", mes);
+		SignUp signUp = signUpService.selectByUserName(userName);
+		Map map =new HashMap();
+		long time = System.currentTimeMillis();
+		map.put("firstStuNo", firstStuNo);
+		map.put("lastStuNo", lastStuNo);
+		map.put("name", name);
+		map.put("promise", promise);
+		map.put("update", time);
+		//判断用户名和修改前的学号是否有效
+		if(signUp==null){
+			return mav;
+		}else if(!signUp.getStuNo().equals(firstStuNo)){
+			return mav;
+		}
+		int num = signUpService.updateSignUp(map);
+		//是否更新成功
+		if(num>0){
+			code=0;
+			message="成功";
+			mes.setCode(code);
+			mes.setMessage(message);
+			mav.addObject("mes", mes);
+			mav.addObject("signUp", signUp);
+			return mav;
+		}else{
+			return mav;
+		}
+		
+	}
+		
 }
