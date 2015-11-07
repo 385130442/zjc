@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjc.dao.ISignUpDao">
+	<resultMap type="SignUp"  id="resultListSignUp">
+		<id column="ID" property="id"/>
+		<result column="username" property="userName"/>
+		<result column="stuNo" property="stuNo"/>
+		<result column="name" property="name"/>
+		<result column="promise" property="promise"/>
+		<result column="create_at" property="createAt"/>		
+		<result column="update_at" property="updateAt"/>
+	</resultMap> 
+	<select id="selectByUserName" parameterType="java.lang.String" resultMap="resultListSignUp">
+		select * from SIGNUP where username = #{userName}
+	</select>
+	<insert id="insertSignUp" parameterType="SignUp" useGeneratedKeys="true" keyProperty="id">
+		insert into SIGNUP(username,stuNo,name,promise,create_at,update_at) values(#{userName},#{stuNo},#{name},#{promise},#{createAt},#{updateAt})
+	</insert>
+	<delete id="deleteSignUpByStuNo" parameterType="java.lang.String" >
+		delete from SIGNUP where STUNO = #{stuNo}
+	</delete>
+	<update id="updateSignUp" parameterType="java.util.Map" >
+		update SIGNUP set stuNo=#{lastStuNo},name=#{name},promise=#{promise},update_at=#{updateAt}
+		where  stuNo=#{firstStuNo}
+	</update>
+</mapper>
